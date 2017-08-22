@@ -9,15 +9,16 @@ namespace install_certificate_app
 {
     public class TableStorage
     {
-
+        private ConfigurationIndexer Config {get; set;}
         public CloudStorageAccount StorageAccount {get;}
 
         public CloudTableClient TableClient {get;}
 
         public TableStorage()
         {
+            Config = new ConfigurationIndexer();
             // Parse the connection string and return a reference to the storage account.
-            StorageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=certdstributionstoracc;AccountKey=JcQKYLGyjlZmCAcY1aNKuxWCUhL2Q0qwZ+0qN8R/uKs6SsAhP9MiwJM5c/Nrh3dYI3aLNHOD2VPukbJBHzlt6g==;EndpointSuffix=core.windows.net");
+            StorageAccount = CloudStorageAccount.Parse(Config.GetConnectionString());
 
             // Create the table client.
             TableClient = StorageAccount.CreateCloudTableClient();
@@ -28,7 +29,7 @@ namespace install_certificate_app
         {
 
             // Retrieve a reference to the table.
-            CloudTable table = TableClient.GetTableReference("ServiceFabricCertificates");
+            CloudTable table = TableClient.GetTableReference(Config.GetTableReference());
 
             // Create the table if it doesn't exist.
             await table.CreateIfNotExistsAsync();

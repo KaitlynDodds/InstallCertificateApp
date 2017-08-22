@@ -7,20 +7,21 @@ namespace install_certificate_app
 {
     public class Certificate 
     {
-        public string CertificatePrefix { get; }
-
-        public string CertificateFileName { get; }
+        private ConfigurationIndexer Config {get; set;}
+        public string CertificateFileName { get; set; }
 
         public Certificate()
         {
-            CertificatePrefix = "";  // TODO: get cert prefix from config file 
-            CertificateFileName = CertificatePrefix + "certificate.";  // merge prefix with standard cert name 
+            Config = new ConfigurationIndexer();
+
+            CertificateFileName = Config.GetCertPrefix() + "_certificate.cer";  // merge prefix with standard cert name 
         }
 
         public void InstallCertificate() 
         {
+            Console.WriteLine(CertificateFileName);
             // create new X509 store for testing in local certificate store 
-            X509Store store = new X509Store("ServiceFabricClientStore", StoreLocation.CurrentUser);
+            X509Store store = new X509Store(Config.GetStoreName(), StoreLocation.CurrentUser);
             try 
             {
                 store.Open(OpenFlags.ReadWrite);
