@@ -40,6 +40,7 @@ namespace install_certificate_app
             Console.WriteLine("========== Certificate Installation Complete...\n\n");
 
             Console.WriteLine("========== Finished ==========\n\n");
+            Console.ReadLine();
         }
 
     }
