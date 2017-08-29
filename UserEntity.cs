@@ -9,13 +9,14 @@ namespace install_certificate_app
     {
         public string UserName {get; set;}
         public string DomainName {get; set;}
+        public string HostName {get; set;}
         public string Email {get; set;}        
         public UserEntity() {}
 
-        public UserEntity(string certificateType, string hostName)
+        public UserEntity(string certificateType, string hostName, string domainName)
         {
             this.PartitionKey = certificateType;
-            this.RowKey = hostName;
+            this.RowKey = $"{hostName}:{domainName}";
         }
 
     }

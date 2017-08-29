@@ -35,8 +35,9 @@ namespace install_certificate_app
             await table.CreateIfNotExistsAsync();
 
             // create new user entity 
-            UserEntity user = new UserEntity(certificateType, computer.HostName);
+            UserEntity user = new UserEntity(certificateType, computer.HostName, computer.DomainName);
             user.DomainName = computer.DomainName;
+            user.HostName = computer.HostName;
             user.UserName = computer.UserName;
             user.Email = computer.Email;
 
