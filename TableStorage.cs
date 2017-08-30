@@ -1,8 +1,9 @@
 using System;
 using System.Threading.Tasks;
-using Microsoft.Azure; // Namespace for CloudConfigurationManager
-using Microsoft.WindowsAzure.Storage; // Namespace for CloudStorageAccount
-using Microsoft.WindowsAzure.Storage.Table; // Namespace for Table storage types
+using Microsoft.Azure; 
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Table;
+using Microsoft.WindowsAzure.Storage.RetryPolicies;
 using System.Configuration;
 
 namespace install_certificate_app
@@ -31,7 +32,11 @@ namespace install_certificate_app
 
             // Retrieve a reference to the table.
             CloudTable table = TableClient.GetTableReference(Config.GetTableReference());
-            // TableClient.DefaultRequestOptions.RetryPolicy = /** exponential **/;
+            TableClient.DefaultRequestOptions = new TableRequestOptions
+            {
+                RetryPolicy = new ExponentialRetry(TimeSpan.FromSeconds(10), 5),
+                MaximumExecutionTime = TimeSpan.FromSeconds(10)
+            };
 
             // Create the table if it doesn't exist.
             await table.CreateIfNotExistsAsync();

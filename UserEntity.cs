@@ -11,11 +11,11 @@ namespace install_certificate_app
         public string DomainName {get; set;}
         public string HostName {get; set;}
         public string Email {get; set;}
+        
         public UserEntity() {}
 
         public UserEntity(string certificateType, string hostName, string domainName)
         {
-            // TODO: kzd -> validate inputs
             this.PartitionKey = ValidateCertificate(certificateType);
             this.RowKey = ValidateFQDN(hostName, domainName);
         }
