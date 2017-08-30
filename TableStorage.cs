@@ -25,13 +25,13 @@ namespace install_certificate_app
 
         }
 
-// retry policy
+        // TODO: kzd -> implement retry policy
         public async Task SendEntityToTable(string certificateType, Computer computer)
         {
 
             // Retrieve a reference to the table.
             CloudTable table = TableClient.GetTableReference(Config.GetTableReference());
-            // TableClient.DefaultRequestOptions.RetryPolicy = /** exponential **/; 
+            // TableClient.DefaultRequestOptions.RetryPolicy = /** exponential **/;
 
             // Create the table if it doesn't exist.
             await table.CreateIfNotExistsAsync();
