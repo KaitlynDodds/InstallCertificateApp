@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using Microsoft.Azure; 
+using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using Microsoft.WindowsAzure.Storage.RetryPolicies;
@@ -26,7 +26,6 @@ namespace install_certificate_app
 
         }
 
-        // TODO: kzd -> implement retry policy
         public async Task SendEntityToTable(string certificateType, Computer computer)
         {
 
