@@ -14,7 +14,7 @@ namespace install_certificate_app
 
         public string Email { get; }
 
-        public Computer() 
+        public Computer()
         {
             IPGlobalProperties computerProperties = IPGlobalProperties.GetIPGlobalProperties();
             DomainName = computerProperties.DomainName;
@@ -25,33 +25,32 @@ namespace install_certificate_app
 
         public string GetJson()
         {
-            return JsonConvert.SerializeObject(this);             
+            return JsonConvert.SerializeObject(this);
         }
 
-        private string GetUserEmail() 
+        private string GetUserEmail()
         {
             string userEmail = null;
             Boolean isValid = false;
-                  
+
             do {
                 Console.WriteLine("\n\nPlease enter your email address: ");
                 string email = Console.ReadLine().Trim().ToLower();
-                // Todo: check that is valid email 
-                if (RegexUtilities.IsValidEmail(email)) // check that is valid email
+                // check that is valid email
+                if (RegexUtilities.IsValidEmail(email))
                 {
-                    // confirm email 
+                    // confirm email
                     Console.WriteLine($"Confirm Email Address: ");
                     string emailConfirmation = Console.ReadLine().Trim().ToLower();
-                    if (email.Equals(emailConfirmation)) 
+                    if (email.Equals(emailConfirmation))
                     {
                         isValid = true;
                         userEmail = email;
-                        Console.WriteLine("========== Thank You.\n\n");
-                    } else 
+                    } else
                     {
                         Console.WriteLine("========== Email did not match");
-                    } 
-                } else 
+                    }
+                } else
                 {
                     Console.WriteLine("========== Invalid Email Address");
                 }

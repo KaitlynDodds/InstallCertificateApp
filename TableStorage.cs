@@ -5,14 +5,14 @@ using Microsoft.WindowsAzure.Storage; // Namespace for CloudStorageAccount
 using Microsoft.WindowsAzure.Storage.Table; // Namespace for Table storage types
 using System.Configuration;
 
-namespace install_certificate_app 
+namespace install_certificate_app
 {
     public class TableStorage
     {
         private ConfigurationIndexer Config {get; set;}
-        public CloudStorageAccount StorageAccount {get;}
+        private CloudStorageAccount StorageAccount {get;}
 
-        public CloudTableClient TableClient {get;}
+        private CloudTableClient TableClient {get;}
 
         public TableStorage()
         {
@@ -25,16 +25,18 @@ namespace install_certificate_app
 
         }
 
+// retry policy
         public async Task SendEntityToTable(string certificateType, Computer computer)
         {
 
             // Retrieve a reference to the table.
             CloudTable table = TableClient.GetTableReference(Config.GetTableReference());
+            // TableClient.DefaultRequestOptions.RetryPolicy = /** exponential **/; 
 
             // Create the table if it doesn't exist.
             await table.CreateIfNotExistsAsync();
 
-            // create new user entity 
+            // create new user entity
             UserEntity user = new UserEntity(certificateType, computer.HostName, computer.DomainName);
             user.DomainName = computer.DomainName;
             user.HostName = computer.HostName;

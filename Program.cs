@@ -18,30 +18,39 @@ namespace install_certificate_app
             MainAsync().Wait();
         }
 
-        static async Task MainAsync() 
+        static async Task MainAsync()
         {
-            Console.WriteLine("========== Install Service Fabric Client Certificate ===========\n\n");
+            try {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("========== Install Service Fabric Client Certificate ===========\n\n");
 
-            // get computer info from system, user email from user                          
-            Console.WriteLine("========== Gathering Information...");
-            Computer computer = new Computer();
-            Console.WriteLine("========== Finished Gathering information...\n\n");            
+                // get computer info from system, user email from user
+                Console.WriteLine("========== Gathering Information...");
+                Computer computer = new Computer();
+                Console.WriteLine("========== Finished Gathering information...\n\n");
 
-            // Sending computer information
-            Console.WriteLine("========== Recording User Information...");
-            TableStorage tableStorage = new TableStorage();
-            await tableStorage.SendEntityToTable(Config.GetCertPrefix(), computer);
-            Console.WriteLine("========== Finished Recording Information...\n\n");            
+                // Sending computer information
+                Console.WriteLine("========== Recording User Information...");
+                TableStorage tableStorage = new TableStorage();
+                await tableStorage.SendEntityToTable(Config.GetCertPrefix(), computer);
+                Console.WriteLine("\n========== Finished Recording Information...\n\n");
 
-            // install certificate
-            Console.WriteLine("========== Installing Client Certificate...");
-            Certificate certificate = new Certificate();
-            certificate.InstallCertificate();
-            Console.WriteLine("========== Certificate Installation Complete...\n\n");
+                // install certificate
+                Console.WriteLine("========== Installing Client Certificate...");
+                Certificate certificate = new Certificate();
+                // output store name to user
+                certificate.InstallCertificate();
+                Console.WriteLine("========== Certificate Installation Complete...\n\n");
 
-            Console.WriteLine("========== Finished ==========\n\n");
+                Console.WriteLine("========== Finished ==========\n\n");
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"\n\nUnexpected Error Occured - Exiting Application:\n\n{ex}\n");
+            }
+            Console.ResetColor();
             Console.ReadLine();
         }
-
     }
 }
